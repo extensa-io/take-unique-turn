@@ -1,0 +1,28 @@
+{
+  "name": "take-unique-turn",
+  "version": "1.0.0",
+  "repository": "git@github.com-personal:extensa-io/take-unique-turn.git",
+  "author": "Néstor Daza <git@extensa.io>",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node src/HttpServer.ts",
+    "build": "tsc",
+    "start": "node dist/HttpServer.js"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.12.11",
+    "@typescript-eslint/eslint-plugin": "^7.9.0",
+    "eslint": "^9.2.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-jsonc": "^2.15.1",
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "http-status-codes": "^2.3.0"
+  }
+}
