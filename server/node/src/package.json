@@ -7,11 +7,9 @@
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "dev-api:start": "node --loader ts-node/esm components/servers/HttpServer.ts",
-    "dev-socket:start": "node --loader ts-node/esm components/servers/SocketServer.ts",
+    "dev-server:start": "node --loader ts-node/esm components/servers/HttpServer.ts",
     "build": "tsc",
-    "api:start": "node dist/HttpServer.js",
-    "socket:start": "node dist/SocketServer.js"
+    "server:start": "node dist/HttpServer.js"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
