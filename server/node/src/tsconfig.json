@@ -4,8 +4,8 @@
     "experimentalDecorators": true,                   /* Enable experimental support for legacy experimental decorators. */
 
     /* Modules */
-    "module": "commonjs",                                /* Specify what module code is generated. */
-    "rootDir": "src",                                    /* Specify the root folder within your source files. */
+    "module": "es2022",
+    "moduleResolution": "Node",                               /* Specify what module code is generated. */
     "types": ["jest"],                                      /* Specify type package names to be included without being referenced in a source file. */
 
     /* Emit */
