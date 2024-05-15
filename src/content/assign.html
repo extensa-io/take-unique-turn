@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>Scan to reserve your turn</title>
     <link rel="stylesheet" type="text/css" href="main.css">
@@ -16,9 +17,9 @@
     </form>
 </div>
 <script>
-    const param = /[&?]id=([^&]+)/.exec(location.search);
-    if (param) {
-        document.getElementById('form').action = "/getTurn/" + param[1];
+    const params = /[&?]id=([^&]+)/.exec(location.search);
+    if (params) {
+        document.getElementById('form').action = "/getTurn/" + params[1];
     }
 </script>
 </body>
