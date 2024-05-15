@@ -1,39 +1,22 @@
-version: '3.8'
 services:
-  flex-taxonomy-ms-api:
-    container_name: flex-taxonomy-ms-api
+  take-unique-turn:
+    container_name: server-node
     build:
       dockerfile: src/Dockerfile
       context: .
       target: build
-      args:
-        ENVIRONMENT: dev
-        NPM_TOKEN: ${NPM_TOKEN}
     ports:
-      - "8888:8080"
-      - "4321:4321"
+      - "2489:8000"
+      - "4332:4321"
     tty: true
     volumes:
       - ./src:/src
       - node_modules:/src/node_modules
     env_file: local_env/.env
     stop_grace_period: 1s
-    entrypoint: bash -c "yarn dev-api:start"
+    entrypoint: bash -c "yarn dev-server:start"
     networks:
-      - shared 
-  
-  flex-taxonomy-ms-mongo:
-    container_name: flex-taxonomy-ms-mongo
-    image: mongo:latest
-    restart: always
-    environment:
-      MONGO_INITDB_DATABASE: flex-taxonomy-ms
-      MONGO_INITDB_ROOT_USERNAME: mongoadmin
-      MONGO_INITDB_ROOT_PASSWORD: secret
-    ports:
-      - "27027:27017"
-    networks:
-      - shared 
+      - shared
 
 volumes:
   node_modules:
