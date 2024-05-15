@@ -1,4 +1,4 @@
-import {turn} from '../Types';
+import {Turn} from '../Types';
 import { v4 as uuidv4 } from 'uuid';
 
 export class TurnService {
@@ -6,7 +6,7 @@ export class TurnService {
     this.createNextTurn();
   }
 
-  public turns: turn = {};
+  public turns: Turn = {};
   public currentTurn: number = 0;
   public nextAvailableTurn: string = '';
 

@@ -10,6 +10,11 @@ export interface TurnDetails {
   assigned: boolean;
 }
 
-export interface turn {
+export interface Turn {
   [id: string] : TurnDetails
+}
+
+export interface Message {
+  server_url: string,
+  next_available_turn: string,
 }

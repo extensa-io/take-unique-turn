@@ -31,8 +31,8 @@
         height : 500
     });
     socket.on('TURN_URL', (message) => {
-        qrcode.makeCode(message.server_url + "assign.html?id=" + message.nextAvailableTurn);
-        document.getElementById("qr-link").href = message.server_url + "getTurn/" + message.nextAvailableTurn;
+        qrcode.makeCode(message.server_url + "assign.html?id=" + message.next_available_turn);
+        document.getElementById("qr-link").href = message.server_url + "getTurn/" + message.next_available_turn;
     });</script>
 </body>
 </html>

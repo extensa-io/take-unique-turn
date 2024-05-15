@@ -6,7 +6,7 @@ import path, { dirname } from 'node:path';
 import { Server } from 'socket.io';
 
 import {TurnService} from '../../shared/services/TurnService';
-import {MessageType} from '../../shared/Types';
+import {Message, MessageType} from '../../shared/Types';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const serverURL = process.env.SERVER_URL || '/';
@@ -24,11 +24,7 @@ app.use(express.static(path.join(__dirname, '../../content')));
 
 // socket listener
 io.on('connection', (socket) => {
-  const message = {
-    server_url: serverURL,
-    nextAvailableTurn: service.nextAvailableTurn,
-  };
-  io.emit(MessageType.TURN_URL, message);
+  io.emit(MessageType.TURN_URL, buildMessage());
 });
 
 // routes
@@ -57,7 +53,14 @@ server.listen(port, () => {
 // miscellaneous
 function assignAndEmit(id: string, name: string): number {
   const assignedTurn = service.assignTurn(id, name);
-  io.emit(MessageType.TURN_URL, `${service.nextAvailableTurn}`);
+  io.emit(MessageType.TURN_URL, buildMessage());
 
   return assignedTurn;
+}
+
+function buildMessage(): Message {
+  return {
+    server_url: serverURL,
+    next_available_turn: service.nextAvailableTurn,
+  };
 }
