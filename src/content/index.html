@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>Scan to reserve your turn</title>
-    <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <body>
 <header>
@@ -30,8 +30,8 @@
         height : 500
     });
     socket.on('TURN_URL', (msg) => {
-        qrcode.makeCode(msg);
-        document.getElementById("qr-link").href = msg;
+        qrcode.makeCode("assignTurn.html?id=" + msg);
+        document.getElementById("qr-link").href = "getTurn/" + msg;
     });</script>
 </body>
 </html>

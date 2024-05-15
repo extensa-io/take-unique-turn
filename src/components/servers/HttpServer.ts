@@ -21,14 +21,16 @@ const port = process.env.PORT || '8000';
 app.use(express.static(path.join(__dirname, '../../content')));
 
 io.on('connection', (socket) => {
-  io.emit(MessageType.TURN_URL, `getTurn/${service.nextAvailableTurn}`);
+  io.emit(MessageType.TURN_URL, `${service.nextAvailableTurn}`);
 });
 
-app.post('/getTurn', (req, res) => {
-  const id = req.body.id;
-  const name = req.body.name || 'anonymous';
+app.post('/getTurn/:id', (req, res) => {
+  const id = req.params.id;
+  const userName = req.body && req.body.user_name ? req.body.user_name : 'anonymous';
+  console.log(userName);
+  console.log(id);
 
-  const assignedTurn = assignAndEmit(id, name);
+  const assignedTurn = assignAndEmit(id, userName);
 
   res.send(`<h1>${assignedTurn}</h1>`);
 });
@@ -44,7 +46,7 @@ server.listen(port, () => {
 
 function assignAndEmit(id: string, name: string): number {
   const assignedTurn = service.assignTurn(id, name);
-  io.emit(MessageType.TURN_URL, `getTurn/${service.nextAvailableTurn}`);
+  io.emit(MessageType.TURN_URL, `${service.nextAvailableTurn}`);
 
   return assignedTurn;
 }

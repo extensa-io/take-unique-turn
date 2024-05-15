@@ -1,5 +1,6 @@
 export enum MessageType {
   DIRECT = 'DIRECT',
+  GET_TURN = 'GET_TURN',
   TURN_URL = 'TURN_URL',
 }
 
