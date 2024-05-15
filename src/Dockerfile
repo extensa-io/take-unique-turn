@@ -7,3 +7,6 @@ COPY ./src/package.json ./src/yarn.* yarn.* ./
 FROM install as build
 WORKDIR /src
 RUN yarn install
+RUN yarn run build
+
+ENTRYPOINT ["yarn", "dev-server:start"]

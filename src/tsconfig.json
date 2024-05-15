@@ -7,8 +7,6 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
 
-    "types": ["jest"],
-
     "sourceMap": true,
     "outDir": "dist",
 

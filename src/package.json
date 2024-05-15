@@ -8,8 +8,7 @@
   "type": "module",
   "scripts": {
     "dev-server:start": "node --experimental-specifier-resolution=node --loader ts-node/esm components/servers/HttpServer.ts",
-    "build": "tsc",
-    "server:start": "node dist/HttpServer.js"
+    "build": "tsc"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
