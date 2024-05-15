@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Scan to reserve your turn</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+<body>
+<header>
+    <h1>Please enter your name</h1>
+</header>
+<div class="qr-container">
+    <form id="form" method="post" action="">
+        <label for="assign-button"></label>
+        <input id="assign-button" autocomplete="off" /><button>Assign turn</button>
+    </form>
+</div>
+<script>
+    const param = /[&?]path=([^&]+)/.exec(location.search);
+    if (param) {
+        document.getElementById('form').action = "/assignTurn/" + param[1];
+    }
+</script>
+</body>
+</html>

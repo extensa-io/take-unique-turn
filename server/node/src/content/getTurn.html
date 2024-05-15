@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Scan to reserve your turn</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+<body>
+<header>
+    <h1>Scan to enter your info and get the next available turn</h1>
+</header>
+<div class="qr-container">
+    <div id="qrcode"></div>
+</div>
+
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+        crossorigin="anonymous">
+</script>
+<script type="text/javascript" src="qrcode.min.js"></script>
+<script>
+    const socket = io();
+
+    const qrcode = new QRCode(document.getElementById("qrcode"), {
+        width : 500,
+        height : 500
+    });
+    socket.on('TURN_URL', (msg) => {
+        qrcode.makeCode(msg);
+    });</script>
+</body>
+</html>

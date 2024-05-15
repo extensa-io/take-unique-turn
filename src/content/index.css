@@ -1,0 +1,53 @@
+/* Basic styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+    background-color: #ddd;
+}
+
+h1 {
+    margin: 0;
+}
+
+/* QR Code Container */
+#qr-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#qr-code {
+    width:500px;
+    height:500px;
+}
+
+#div-link {
+    padding: 0.25rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    height: 3rem;
+}
+
+#qr-link {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
