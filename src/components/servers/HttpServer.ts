@@ -28,20 +28,25 @@ io.on('connection', (socket) => {
 });
 
 // routes
-app.post('/getTurn/:id', async (req, res) => {
-  const id = req.params.id;
-  const userName = req.body && req.body.user_name ? req.body.user_name : 'anonymous';
-
-  const assignedTurn = assignAndEmit(id, userName);
+app.get('/getTurn/:id', (req, res) => {
+  const userName = 'anonymous';
+  const assignedTurn = service.assignTurn(req.params.id, userName);
 
   res.redirect(`/thanks.html?name=${userName}&turn=${assignedTurn}`);
 });
 
-app.get('/getTurn/:id', (req, res) => {
-  const userName = 'anonymous';
-  const assignedTurn = assignAndEmit(req.params.id, userName);
+app.post('/getTurn/:id', async (req, res) => {
+  const id = req.params.id;
+  const userName = req.body && req.body.user_name ? req.body.user_name : 'anonymous';
+
+  const assignedTurn = service.assignTurn(id, userName);
 
   res.redirect(`/thanks.html?name=${userName}&turn=${assignedTurn}`);
+});
+
+app.get('/assign/:id', (req, res) => {
+  createAndEmit();
+  res.redirect(`/assign.html?id=${req.params.id}`);
 });
 
 // server
@@ -51,11 +56,9 @@ server.listen(port, () => {
 });
 
 // miscellaneous
-function assignAndEmit(id: string, name: string): number {
-  const assignedTurn = service.assignTurn(id, name);
+function createAndEmit(): void {
+  service.createNextTurn();
   io.emit(MessageType.TURN_URL, buildMessage());
-
-  return assignedTurn;
 }
 
 function buildMessage(): Message {

@@ -14,7 +14,6 @@ export class TurnService {
     if (!this.turns[id].assigned) {
       this.turns[id].user_name = userName;
       this.turns[id].assigned = true;
-      this.createNextTurn();
     }
 
     return this.turns[id].turn;
