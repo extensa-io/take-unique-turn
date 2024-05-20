@@ -9,13 +9,30 @@ import {TurnService} from '../../shared/services/TurnService';
 import {Message, MessageType} from '../../shared/Types';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+// env variables
+const port =  process.env.PORT || '8000';
 const serverURL = process.env.SERVER_URL || '/';
+const dbCollection = process.env.MONGO_DB_COLLECTION || '';
+const dbServer = process.env.MONGO_DB_SERVER_URL || '';
+const dbUser = process.env.MONGO_DB_USER || '';
+const dbPassword = process.env.MONGO_DB_PASSWORD || '';
+
+console.log(`port:${port}, serverURL:${serverURL}, dbCollection:${dbCollection}, dbServer:${dbServer}, dbUser:${dbUser}, dbPassword:${dbPassword}`);
 
 // components
+const service = new TurnService();
+
+// server
 const app = express();
 const server = createServer(app);
+
+server.listen(port, () => {
+  return console.log(`Server running on ${port}`);
+});
+
+//socket
 const io = new Server(server);
-const service = new TurnService();
 
 // middleware
 app.use(express.json());
@@ -28,6 +45,10 @@ io.on('connection', (socket) => {
 });
 
 // routes
+app.get('/', (req, res) => {
+  res.status(200).send('take-unique-api API OK')
+});
+
 app.get('/getTurn/:id', (req, res) => {
   const userName = 'anonymous';
   const assignedTurn = service.assignTurn(req.params.id, userName);
@@ -47,12 +68,6 @@ app.post('/getTurn/:id', async (req, res) => {
 app.get('/assign/:id', (req, res) => {
   createAndEmit();
   res.redirect(`/assign.html?id=${req.params.id}`);
-});
-
-// server
-const port = process.env.PORT || '8000';
-server.listen(port, () => {
-  return console.log(`Server running on ${port}`);
 });
 
 // miscellaneous

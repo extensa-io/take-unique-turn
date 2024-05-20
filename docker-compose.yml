@@ -4,7 +4,6 @@ services:
     build:
       dockerfile: src/Dockerfile
       context: .
-      target: build
     ports:
       - "2489:8000"
       - "4332:4321"
