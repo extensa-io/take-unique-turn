@@ -25,7 +25,7 @@ export class TurnService {
   }
 
   public async getTurns(): Promise<TurnDetails[]> {
-    return this.repository.getTurns();
+    return await this.repository.getTurns();
   }
 
   public async resetDB() {

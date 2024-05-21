@@ -79,7 +79,7 @@ void (async () => {
     await service.resetDB();
     await createAndEmit();
 
-    res.send(`<h1>turns cleared, next turn is [${service.nextAvailableTurn}]</h1`);
+    res.send(`turns cleared, next turn is [${service.nextAvailableTurn}]`);
   });
 
   app.get('/assign/:id', async (req, res) => {
