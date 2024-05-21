@@ -11,7 +11,7 @@ services:
     volumes:
       - ./src:/src
       - node_modules:/src/node_modules
-    env_file: local_env/.env
+    env_file: src/.env
     stop_grace_period: 1s
     entrypoint: bash -c "yarn dev-server:start"
     networks:

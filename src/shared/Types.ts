@@ -4,6 +4,13 @@ export enum MessageType {
   TURN_URL = 'TURN_URL',
 }
 
+export interface DBSettings {
+  dbCollection: string;
+  dbServer: string;
+  dbUser: string;
+  dbPassword: string;
+}
+
 export interface TurnDetails {
   turn: number;
   user_name: string;
