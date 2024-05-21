@@ -77,9 +77,9 @@ void (async () => {
 
   app.post('/reset', async (req, res) => {
     await service.resetDB();
-    const nextTurn = await service.createNextTurn();
+    await createAndEmit();
 
-    res.send(`<h1>turns cleared, next turn is [${nextTurn.turn}]</h1`);
+    res.send(`<h1>turns cleared, next turn is [${service.nextAvailableTurn}]</h1`);
   });
 
   app.get('/assign/:id', async (req, res) => {
