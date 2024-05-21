@@ -1,33 +1,28 @@
-import {Turn} from '../Types';
-import { v4 as uuidv4 } from 'uuid';
+import {TurnDetails} from '../Types';
+import {TurnRepository} from '../repositories/TurnRepository';
 
 export class TurnService {
-  constructor() {
-    this.createNextTurn();
+  constructor(_repository: TurnRepository) {
+    this.repository = _repository;
   }
+  private repository: TurnRepository;
 
-  public turns: Turn = {};
   public currentTurn: number = 0;
   public nextAvailableTurn: string = '';
 
-  public assignTurn(id: string, userName: string): number {
-    if (!this.turns[id].assigned) {
-      this.turns[id].user_name = userName;
-      this.turns[id].assigned = true;
-    }
-
-    return this.turns[id].turn;
+  public async assignTurn(turnId: string, userName: string): Promise<TurnDetails> {
+    return await this.repository.assignTurn(turnId, userName);
   }
 
-  public createNextTurn() {
-    this.currentTurn++;
-    this.nextAvailableTurn = uuidv4();
+  public async createNextTurn(): Promise<TurnDetails> {
+    const nextTurn = await this.repository.getNextAvailableTurn();
+    this.currentTurn = nextTurn.turn;
+    this.nextAvailableTurn = nextTurn.turn_id!;
 
-    this.turns[this.nextAvailableTurn] = {
-      turn: this.currentTurn,
-      user_name: '',
-      assigned: false,
-    };
+    return nextTurn;
   }
 
+  public async resetDB() {
+    await this.repository.resetTurns();
+  }
 }

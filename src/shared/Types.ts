@@ -12,6 +12,7 @@ export interface DBSettings {
 }
 
 export interface TurnDetails {
+  turn_id?: string;
   turn: number;
   user_name: string;
   assigned: boolean;
