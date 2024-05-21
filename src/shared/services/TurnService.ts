@@ -7,7 +7,6 @@ export class TurnService {
   }
   private repository: TurnRepository;
 
-  public currentTurn: number = 0;
   public nextAvailableTurn: string = '';
 
   public async assignTurn(turnId: string, userName: string): Promise<TurnDetails> {
@@ -20,10 +19,13 @@ export class TurnService {
 
   public async createNextTurn(): Promise<TurnDetails> {
     const nextTurn = await this.repository.getNextAvailableTurn();
-    this.currentTurn = nextTurn.turn;
     this.nextAvailableTurn = nextTurn.turn_id!;
 
     return nextTurn;
+  }
+
+  public async getTurns(): Promise<TurnDetails[]> {
+    return this.repository.getTurns();
   }
 
   public async resetDB() {

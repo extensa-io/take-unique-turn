@@ -23,7 +23,7 @@ export class TurnRepository {
 
   public async addTurn(turn: TurnDetails): Promise<TurnDetails> {
     const newTurn = await this.model.create(turn);
-    console.log(`Turn ${newTurn.turn} created`);
+    console.log(`Turn [${newTurn.turn}] created [${newTurn.turn_id}]`);
 
     return newTurn.toObject();
   }
@@ -47,6 +47,7 @@ export class TurnRepository {
           upsert: false,
         }
     );
+    console.log(`Turn ${turnId} assigned`);
     return turn!.toObject();
   }
 
@@ -61,6 +62,7 @@ export class TurnRepository {
           upsert: false,
         }
     );
+    console.log(`Turn ${turnId} reserved`);
     return turn!.toObject();
   }
 
@@ -69,13 +71,28 @@ export class TurnRepository {
     if (!unassignedTurn) {
       return await this.addTurn({
         turn_id: uuidv4(),
-        turn: 1,
+        turn: await this.getMaxTurn(),
         user_name: '',
         status: TurnStatus.AVAILABLE,
       });
     } else {
+      console.log(`current available turn is [${unassignedTurn.turn}] [${unassignedTurn.turn_id}]`);
       return unassignedTurn.toObject();
     }
+  }
+
+  public async getMaxTurn(): Promise<number> {
+    const maxCurrentTurn = await this.model.findOne().sort({turn:-1}).limit(1);
+    if (!maxCurrentTurn) {
+      return 1;
+    }
+    return maxCurrentTurn.turn + 1;
+  }
+
+  public async getTurns(): Promise<TurnDetails[]> {
+    const turns = await this.model.find({}).sort({turn:-1});
+
+    return turns.map((t) => t.toObject());
   }
 
   public async resetTurns(): Promise<void> {

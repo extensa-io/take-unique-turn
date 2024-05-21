@@ -54,6 +54,10 @@ void (async () => {
     res.status(200).send('take-unique-api API OK')
   });
 
+  app.get('/all', async (req, res) => {
+    res.status(200).send(await service.getTurns());
+  });
+
   app.get('/getTurn/:id', async (req, res) => {
     const userName = 'anonymous';
     const turnId = req.params.id;
@@ -81,14 +85,18 @@ void (async () => {
   app.get('/assign/:id', async (req, res) => {
     const turnID = req.params.id;
     await service.reserveTurn(turnID)
-    createAndEmit();
+    await createAndEmit();
     res.redirect(`/assign.html?id=${turnID}`);
   });
 
   // miscellaneous
-  function createAndEmit(): void {
-    service.createNextTurn();
-    io.emit(MessageType.TURN_URL, buildMessage());
+  async function createAndEmit(): Promise<void> {
+    await service.createNextTurn();
+
+    const message = buildMessage();
+    console.log(`emitting message for turn [${message.next_available_turn}]`);
+
+    io.emit(MessageType.TURN_URL, message);
   }
 
   function buildMessage(): Message {
