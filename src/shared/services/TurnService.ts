@@ -14,6 +14,10 @@ export class TurnService {
     return await this.repository.assignTurn(turnId, userName);
   }
 
+  public async reserveTurn(turnId: string): Promise<void> {
+    await this.repository.reserveTurn(turnId);
+  }
+
   public async createNextTurn(): Promise<TurnDetails> {
     const nextTurn = await this.repository.getNextAvailableTurn();
     this.currentTurn = nextTurn.turn;

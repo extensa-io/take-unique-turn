@@ -56,16 +56,17 @@ void (async () => {
 
   app.get('/getTurn/:id', async (req, res) => {
     const userName = 'anonymous';
-    const assignedTurn = await service.assignTurn(req.params.id, userName);
+    const turnId = req.params.id;
+    const assignedTurn = await service.assignTurn(turnId, userName);
 
     res.redirect(`/thanks.html?name=${assignedTurn.user_name}&turn=${assignedTurn.turn}`);
   });
 
   app.post('/getTurn/:id', async (req, res) => {
-    const id = req.params.id;
+    const turnId = req.params.id;
     const userName = req.body && req.body.user_name ? req.body.user_name : 'anonymous';
 
-    const assignedTurn = await service.assignTurn(id, userName);
+    const assignedTurn = await service.assignTurn(turnId, userName);
 
     res.redirect(`/thanks.html?name=${assignedTurn.user_name}&turn=${assignedTurn.turn}`);
   });
@@ -77,9 +78,11 @@ void (async () => {
     res.send(`<h1>turns cleared, next turn is [${nextTurn.turn}]</h1`);
   });
 
-  app.get('/assign/:id', (req, res) => {
+  app.get('/assign/:id', async (req, res) => {
+    const turnID = req.params.id;
+    await service.reserveTurn(turnID)
     createAndEmit();
-    res.redirect(`/assign.html?id=${req.params.id}`);
+    res.redirect(`/assign.html?id=${turnID}`);
   });
 
   // miscellaneous

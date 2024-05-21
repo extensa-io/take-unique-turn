@@ -1,4 +1,4 @@
-import {DBSettings, TurnDetails} from '../Types';
+import {DBSettings, TurnDetails, TurnStatus} from '../Types';
 import {v4 as uuidv4} from 'uuid';
 import mongoose, {Model} from 'mongoose';
 import {ITurnModel, turnSchema} from '../models/Turn';
@@ -40,7 +40,21 @@ export class TurnRepository {
     const turn = await this.model.findOneAndUpdate(
         {turn_id: turnId},
         {
-          $set: {user_name: name, assigned: true}
+          $set: {user_name: name, status: TurnStatus.ASSIGNED}
+        },
+        {
+          new: true,
+          upsert: false,
+        }
+    );
+    return turn!.toObject();
+  }
+
+  public async reserveTurn(turnId: string): Promise<TurnDetails> {
+    const turn = await this.model.findOneAndUpdate(
+        {turn_id: turnId},
+        {
+          $set: {status: TurnStatus.RESERVED}
         },
         {
           new: true,
@@ -51,13 +65,13 @@ export class TurnRepository {
   }
 
   public async getNextAvailableTurn(): Promise<TurnDetails> {
-    const unassignedTurn = await this.model.findOne({ assigned: false });
+    const unassignedTurn = await this.model.findOne({ status: TurnStatus.AVAILABLE });
     if (!unassignedTurn) {
       return await this.addTurn({
         turn_id: uuidv4(),
         turn: 1,
         user_name: '',
-        assigned: false,
+        status: TurnStatus.AVAILABLE,
       });
     } else {
       return unassignedTurn.toObject();
