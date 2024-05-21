@@ -51,7 +51,7 @@ void (async () => {
 
 // routes
   app.get('/', (req, res) => {
-    res.status(200).send('take-unique-api API OK')
+    res.status(200).send('take-unique-turn API OK')
   });
 
   app.get('/all', async (req, res) => {
