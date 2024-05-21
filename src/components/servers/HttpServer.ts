@@ -8,6 +8,7 @@ import { Server } from 'socket.io';
 import { TurnRepository } from '../../shared/repositories/TurnRepository';
 import { DBSettings, Message, MessageType } from '../../shared/Types';
 import { TurnService } from '../../shared/services/TurnService';
+import * as fs from 'node:fs';
 
 dotenv.config()
 
@@ -52,6 +53,15 @@ void (async () => {
 // routes
   app.get('/', (req, res) => {
     res.status(200).send('take-unique-turn API OK')
+  });
+
+  app.get('/presentation', async (req, res) => {
+    const file = fs.createReadStream('./assets/FromNodeToDeno.pdf');
+    const stat = fs.statSync('./assets/FromNodeToDeno.pdf');
+    res.setHeader('Content-Length', stat.size);
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename=FromNodeToDeno.pdf');
+    file.pipe(res);
   });
 
   app.get('/all', async (req, res) => {
